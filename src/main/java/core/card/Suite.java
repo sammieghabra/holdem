@@ -2,7 +2,7 @@ package core.card;
 
 public enum Suite {
     HEART,
-    JACK,
+    DIAMONDS,
     SPADE,
     CLUBS
 }

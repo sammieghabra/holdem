@@ -2,6 +2,7 @@ package core.game;
 
 import com.google.common.collect.ImmutableList;
 import core.card.Card;
+import core.player.Hand;
 import core.player.Player;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class Dealer {
             for (int i = 0; i < players.size(); ++i) {
                 final Card first = cards.remove(0);
                 final Card second = cards.remove(0);
-                players.get(i).getCardsInHand().addAll(ImmutableList.of(first, second));
+                players.get(i).setHand(new Hand(first, second));
             }
     }
 

@@ -10,10 +10,10 @@ public class Dealer {
 
     private Shuffler shuffler;
 
-    public void distributeCards(int numberOfPlayers, List<Player> players, List<Card> cards) {
+    public void distributeCards(List<Player> players, List<Card> cards) {
             shuffler.shuffle(cards);
 
-            for (int i = 0; i < numberOfPlayers; ++i) {
+            for (int i = 0; i < players.size(); ++i) {
                 final Card first = cards.remove(0);
                 final Card second = cards.remove(0);
                 players.get(i).getCardsInHand().addAll(ImmutableList.of(first, second));
@@ -36,5 +36,9 @@ public class Dealer {
     public void distributeRiver(List<Card> cards, Table table) {
         final Card river = cards.remove(0);
         table.getCards().add(river);
+    }
+
+    public Integer determineWinner(List<Player> players, Table table) {
+        return players.get(0).getId();
     }
 }

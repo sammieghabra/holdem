@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Deck {
 
-    public static final List<Card> DECK = ImmutableList.of(
+    private static final List<Card> DECK = ImmutableList.of(
             Card.builder().value(2).suite(Suite.HEART).build(),
             Card.builder().value(3).suite(Suite.HEART).build(),
             Card.builder().value(4).suite(Suite.HEART).build(),
@@ -64,4 +64,8 @@ public class Deck {
             Card.builder().value(12).suite(Suite.CLUBS).build(),
             Card.builder().value(13).suite(Suite.CLUBS).build(),
             Card.builder().value(14).suite(Suite.CLUBS).build());
+
+    List<Card> getDeck() {
+        return DECK;
+    }
 }

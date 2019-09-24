@@ -1,11 +1,15 @@
 package core.game;
 
 import core.card.Card;
-import lombok.Value;
+import core.player.Player;
+import lombok.Data;
 
 import java.util.List;
 
-@Value
+@Data
 public class Table {
     private List<Card> cards;
+    private List<Player> players;
+    private Integer pot;
+    private boolean gameInPlay;
 }

@@ -1,4 +1,6 @@
-package core.game;
+package server;
+
+import core.game.Simulator;
 
 public class Server {
 

@@ -22,7 +22,7 @@ public class EvaluatorTest {
     public void testEvaluatesStraightFlush() {
         List<Card> cards = ImmutableList.of(
                 new Card(Suite.HEART, 10), new Card(Suite.HEART, 9), new Card(Suite.HEART, 8),
-                new Card(Suite.HEART, 7), new Card(Suite.HEART, 6));
+                new Card(Suite.HEART, 7), new Card(Suite.HEART, 6), new Card(Suite.HEART, 2));
         Integer result = evaluator.evaluate(cards);
         Assertions.assertTrue(result.equals(1000));
     }
@@ -31,7 +31,7 @@ public class EvaluatorTest {
     public void testEvaluatesFullHouse() {
         List<Card> cards = ImmutableList.of(
                 new Card(Suite.HEART, 10), new Card(Suite.HEART, 9), new Card(Suite.SPADE, 9),
-                new Card(Suite.CLUBS, 10), new Card(Suite.DIAMONDS, 9));
+                new Card(Suite.CLUBS, 10), new Card(Suite.DIAMONDS, 9), new Card(Suite.HEART, 2));
         Integer result = evaluator.evaluate(cards);
         Assertions.assertTrue(result.equals(800));
     }
@@ -40,7 +40,7 @@ public class EvaluatorTest {
     public void testEvaluatesFourPair() {
         List<Card> cards = ImmutableList.of(
                 new Card(Suite.HEART, 10), new Card(Suite.CLUBS, 10), new Card(Suite.HEART, 8),
-                new Card(Suite.SPADE, 10), new Card(Suite.DIAMONDS, 10));
+                new Card(Suite.SPADE, 10), new Card(Suite.DIAMONDS, 10), new Card(Suite.HEART, 2));
         Integer result = evaluator.evaluate(cards);
         System.out.println(result);
         Assertions.assertTrue(result.equals(900));
@@ -50,7 +50,7 @@ public class EvaluatorTest {
     public void testEvaluatesFlush() {
         List<Card> cards = ImmutableList.of(
                 new Card(Suite.HEART, 10), new Card(Suite.HEART, 3), new Card(Suite.HEART, 8),
-                new Card(Suite.HEART, 2), new Card(Suite.HEART, 5));
+                new Card(Suite.HEART, 2), new Card(Suite.HEART, 5), new Card(Suite.SPADE, 2));
         Integer result = evaluator.evaluate(cards);
         Assertions.assertTrue(result.equals(700));
     }
@@ -59,7 +59,7 @@ public class EvaluatorTest {
     public void testEvaluatesStraight() {
         List<Card> cards = ImmutableList.of(
                 new Card(Suite.SPADE, 10), new Card(Suite.CLUBS, 9), new Card(Suite.DIAMONDS, 8),
-                new Card(Suite.HEART, 7), new Card(Suite.HEART, 6));
+                new Card(Suite.HEART, 7), new Card(Suite.HEART, 6), new Card(Suite.HEART, 2));
         Integer result = evaluator.evaluate(cards);
         Assertions.assertTrue(result.equals(600));
     }
@@ -68,7 +68,7 @@ public class EvaluatorTest {
     public void testEvaluatesThreePair() {
         List<Card> cards = ImmutableList.of(
                 new Card(Suite.HEART, 10), new Card(Suite.SPADE, 10), new Card(Suite.HEART, 8),
-                new Card(Suite.DIAMONDS, 10), new Card(Suite.HEART, 6));
+                new Card(Suite.DIAMONDS, 10), new Card(Suite.HEART, 6), new Card(Suite.HEART, 2));
         Integer result = evaluator.evaluate(cards);
         Assertions.assertTrue(result.equals(500));
     }

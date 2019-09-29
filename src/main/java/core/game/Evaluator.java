@@ -45,7 +45,7 @@ public class Evaluator {
                 Collectors.toMap(Card::getValue, card -> 1,
                         (oldValue, newValue) -> newValue + oldValue));
 
-        return valueToOccMap.size() == 2 && valueToOccMap.values().contains(4);
+        return valueToOccMap.values().contains(4);
     }
 
     private static boolean isFullHouse(List<Card> cards) {
@@ -53,46 +53,54 @@ public class Evaluator {
                 Collectors.toMap(Card::getValue, card -> 1,
                         (oldValue, newValue) -> newValue + oldValue));
 
-        return valueToOccMap.size() == 2 && valueToOccMap.values().contains(3);
+        return valueToOccMap.values().contains(3) && valueToOccMap.values().contains(2);
     }
 
     private static boolean isFlush(List<Card> cards) {
-        final Suite firstSuite = cards.get(0).getSuite();
-        return cards.stream().allMatch(card -> card.getSuite() == firstSuite);
+
+        Map<Suite, Integer> suitToOccMap = cards.stream().collect(
+                Collectors.toMap(Card::getSuite, card -> 1,
+                        (oldValue, newValue) -> newValue + oldValue));
+
+        return suitToOccMap.getOrDefault(Suite.HEART, 0) >= 5 ||
+                suitToOccMap.getOrDefault(Suite.SPADE, 0) >= 5 ||
+                suitToOccMap.getOrDefault(Suite.DIAMONDS, 0) >= 5 ||
+                suitToOccMap.getOrDefault(Suite.CLUBS, 0) >= 5;
     }
 
     private static boolean isStraight(List<Card> cards) {
 
+        int cardsInConsecutive = 1;
+
         for (int i = 0; i < cards.size(); ++i) {
             if (i < cards.size()-1) {
-                if (cards.get(i).getValue() != cards.get(i+1).getValue() -1) {
-                    return false;
+                if (cards.get(i).getValue() == cards.get(i+1).getValue() -1) {
+                    cardsInConsecutive++;
                 }
             }
         }
 
-        return true;
+        return cardsInConsecutive >= 5;
     }
 
     private static boolean isThreePair(List<Card> cards) {
         Map<Integer, Integer> valueToOccMap = cards.stream().collect(
                 Collectors.toMap(Card::getValue, card -> 1,
                         (oldValue, newValue) -> newValue + oldValue));
-        return valueToOccMap.size() == 3 && valueToOccMap.values().contains(3);
+        return valueToOccMap.values().contains(3);
     }
 
     private static boolean isTwoPair(List<Card> cards) {
         Map<Integer, Integer> valueToOccMap = cards.stream().collect(
                 Collectors.toMap(Card::getValue, card -> 1,
                         (oldValue, newValue) -> newValue + oldValue));
-        return valueToOccMap.size() == 3 &&
-                valueToOccMap.values().stream().filter(value -> value == 2).count() == 2;
+        return valueToOccMap.values().stream().filter(value -> value == 2).count() == 2;
     }
 
     private static boolean isOnePair(List<Card> cards) {
         Map<Integer, Integer> valueToOccMap = cards.stream().collect(
                 Collectors.toMap(Card::getValue, card -> 1,
                         (oldValue, newValue) -> newValue + oldValue));
-        return valueToOccMap.size() == 4;
+        return valueToOccMap.values().contains(2);
     }
 }

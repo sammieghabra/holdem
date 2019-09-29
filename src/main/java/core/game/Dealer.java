@@ -62,6 +62,7 @@ public class Dealer {
                 player -> {
                     final List<Card> toBeEvaluated = ImmutableList.of(
                             table.getCards().get(0), table.getCards().get(1), table.getCards().get(2),
+                            table.getCards().get(3), table.getCards().get(4),
                             player.getHand().getFirstCard(), player.getHand().getSecondCard());
                     return evaluator.evaluate(toBeEvaluated);
                 }));

@@ -5,16 +5,17 @@ import core.card.Card;
 import core.player.Hand;
 import core.player.Player;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Dealer {
 
     public Dealer() {
         shuffler = new Shuffler();
+        evaluator = new Evaluator();
     }
 
     private Shuffler shuffler;
+    private Evaluator evaluator;
 
     public void distributeCards(List<Player> players, List<Card> cards) {
             shuffler.shuffle(cards);
@@ -55,11 +56,15 @@ public class Dealer {
     }
 
     public Integer determineWinner(List<Player> players, Table table) {
-        Random r = new Random();
-        int low = 0;
-        int high = players.size()-1;
-        int result = r.nextInt(high-low) + low;
+        // TODO - ties?
 
-        return players.get(result).getId();
+        Player winner = Collections.max(players, Comparator.comparing(
+                player -> {
+                    final List<Card> toBeEvaluated = ImmutableList.of(
+                            table.getCards().get(0), table.getCards().get(1), table.getCards().get(2),
+                            player.getHand().getFirstCard(), player.getHand().getSecondCard());
+                    return evaluator.evaluate(toBeEvaluated);
+                }));
+        return winner.getId();
     }
 }

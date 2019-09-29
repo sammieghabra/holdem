@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import core.card.Card;
 import core.card.Suite;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -27,18 +24,16 @@ public class Evaluator {
     public Integer evaluate(List<Card> cardsOnTable) {
 
         // sort the cards
-        cardsOnTable.sort(Comparator.comparing(card -> card.getValue()));
+        List<Card> cards = new ArrayList<>(cardsOnTable);
+        Collections.sort(cards, Comparator.comparing(card -> card.getValue()));
 
-        List<Integer> results = new ArrayList<>();
-        results.add(0);
-
-        PREDICATES.forEach((val, predicate) -> {
-            if (predicate.test(cardsOnTable)) {
-                results.add(val);
+        for (Map.Entry<Integer, Predicate<List<Card>>> entry: PREDICATES.entrySet()) {
+            if (entry.getValue().test(cards)) {
+                return entry.getKey();
             }
-        });
+        }
 
-        return results.get(0);
+        return 0;
     }
 
     private static boolean isStraightFlush(List<Card> cards) {
@@ -70,7 +65,7 @@ public class Evaluator {
 
         for (int i = 0; i < cards.size(); ++i) {
             if (i < cards.size()-1) {
-                if (cards.get(i).getValue() != cards.get(i+1).getValue()) {
+                if (cards.get(i).getValue() != cards.get(i+1).getValue() -1) {
                     return false;
                 }
             }

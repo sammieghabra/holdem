@@ -1,6 +1,7 @@
 package core.player;
 
 import core.game.Bet;
+import core.game.Round;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class Player {
     private Integer id;
     private boolean isInRound;
 
-    public Bet decide(Optional<Integer> currentBet) {
+    public Bet decide(Optional<Integer> currentBet, Round round) {
 
         if (money == 0) {
             isInRound = false;

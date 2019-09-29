@@ -52,74 +52,21 @@ public class Simulator {
                 break;
             }
 
-            //System.out.println("Size of cards: " + cards.size());
-
+            // PRE-FLOP
             dealer.distributeCards(table.getPlayers(), cards);
+            simulateRound(Round.PRE_FLOP, playerMap);
 
-            //System.out.println("Size of cards: " + cards.size());
-
-            // TODO - Do the pre flop
-
+            // FLOP
             dealer.distributeFlop(cards, table);
+            simulateRound(Round.FLOP, playerMap);
 
-            //System.out.println("Size of cards: " + cards.size());
-
-            Optional<Integer> currentBet = Optional.empty();
-
-            for (Player player: playerMap.values()) {
-                if (player.isInRound()) {
-                    Bet bet = player.decide(currentBet);
-
-                    if (!currentBet.isPresent()) {
-                        currentBet = bet.bet;
-                    }
-
-                    if (bet.bet.isPresent()) {
-                        table.setPot(table.getPot() + bet.bet.get());
-                    }
-                }
-            }
-
-            //System.out.println("Size of cards: " + cards.size());
-
+            // TURN
             dealer.distributeTurnCard(cards, table);
+            simulateRound(Round.TURN, playerMap);
 
-            Optional<Integer> turnCardBet = Optional.empty();
-
-            for (Player player: playerMap.values()) {
-                if (player.isInRound()) {
-                    Bet bet = player.decide(turnCardBet);
-
-                    if (!turnCardBet.isPresent()) {
-                        turnCardBet = bet.bet;
-                    }
-
-                    if (bet.bet.isPresent()) {
-                        table.setPot(table.getPot() + bet.bet.get());
-                    }
-                }
-            }
-
-            //System.out.println("Size of cards: " + cards.size());
-
+            // RIVER
             dealer.distributeRiver(cards, table);
-
-            Optional<Integer> riverCardBet = Optional.empty();
-
-            for (Player player: playerMap.values()) {
-                if (player.isInRound()) {
-                    Bet bet = player.decide(riverCardBet);
-
-                    if (!riverCardBet.isPresent()) {
-                        riverCardBet = bet.bet;
-                    }
-
-                    if (bet.bet.isPresent()) {
-                        table.setPot(table.getPot() + bet.bet.get());
-                    }                }
-            }
-
-            //System.out.println("Size of cards: " + cards.size());
+            simulateRound(Round.RIVER, playerMap);
 
             // TODO - handle side bets
             Integer winnerId = dealer.determineWinner(new ArrayList<>(playerMap.values()), table);
@@ -128,6 +75,7 @@ public class Simulator {
             winner.setMoney(winner.getMoney() + table.getPot());
             winner.setBankrupt(false);
             System.out.println("Player: " + winnerId + " won " + table.getPot());
+
             table.setPot(0);
 
             for (Player player: playerMap.values()) {
@@ -135,6 +83,24 @@ public class Simulator {
             }
         }
 
+    }
+
+    private void simulateRound(Round round, Map<Integer, Player> playerMap) {
+        Optional<Integer> roundBet = Optional.empty();
+
+        for (Player player: playerMap.values()) {
+            if (player.isInRound()) {
+                Bet bet = player.decide(roundBet, round);
+
+                if (!roundBet.isPresent()) {
+                    roundBet = bet.bet;
+                }
+
+                if (bet.bet.isPresent()) {
+                    table.setPot(table.getPot() + bet.bet.get());
+                }
+            }
+        }
     }
 
 }

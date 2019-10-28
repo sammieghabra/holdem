@@ -20,4 +20,5 @@ public class Table {
     private List<Player> players;
     private Integer pot;
     private boolean gameInPlay;
+    private Integer currentBet;
 }

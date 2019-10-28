@@ -1,10 +1,14 @@
 package core.player;
 
+import com.google.common.collect.ImmutableList;
+import core.card.Card;
 import core.game.Bet;
 import core.game.Round;
+import core.game.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -17,7 +21,7 @@ public class Player {
     private Integer id;
     private boolean isInRound;
 
-    public Bet decide(Optional<Integer> currentBet, Round round) {
+    public Bet decide(Optional<Integer> currentBet, Round round, Table table) {
 
         if (money == 0) {
             isInRound = false;
@@ -50,6 +54,10 @@ public class Player {
             this.money = money - result;
             return new Bet(Bet.Decision.RAISE,Optional.of(result));
         }
+    }
+
+    public List<Card> getCardHand() {
+        return ImmutableList.of(this.getHand().getFirstCard(), this.getHand().getSecondCard());
     }
 
     public static Player defaultPlayer(Integer id) {

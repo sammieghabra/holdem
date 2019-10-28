@@ -90,7 +90,7 @@ public class Simulator {
 
         for (Player player: playerMap.values()) {
             if (player.isInRound()) {
-                Bet bet = player.decide(roundBet, round);
+                Bet bet = player.decide(roundBet, round, table);
 
                 if (!roundBet.isPresent()) {
                     roundBet = bet.bet;
